@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F. Scott Fitzgerald: A Life in Timeline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1614;
+            --secondary: #8b6f47;
+            --accent: #c89b3c;
+            --bg: #faf8f5;
+            --card-bg: #ffffff;
+            --shadow: rgba(26, 22, 20, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: var(--bg);
+            color: var(--primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #1a1614 0%, #3d3531 100%);
+            color: var(--bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(200, 155, 60, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 111, 71, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            z-index: 1;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            font-weight: 400;
+            opacity: 0.85;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.875rem;
+            opacity: 0.6;
+            animation: bounce 2s infinite;
+            letter-spacing: 0.1em;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 3rem 0 4rem;
+            position: sticky;
+            top: 2rem;
+            z-index: 100;
+            background: var(--bg);
+            padding: 1.5rem 0;
+            border-radius: 2rem;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.75rem;
+            border: 2px solid var(--secondary);
+            background: transparent;
+            color: var(--secondary);
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 2rem;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .filter-btn:hover {
+            background: var(--secondary);
+            color: var(--bg);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--bg);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--accent), var(--secondary));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: slideIn 0.6s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3.5rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            background: var(--accent);
+            border: 3px solid var(--bg);
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px var(--secondary);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover::before {
+            transform: scale(1.3);
+            box-shadow: 0 0 0 6px rgba(200, 155, 60, 0.2);
+        }
+
+        .timeline-card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 20px var(--shadow);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--accent);
+        }
+
+        .timeline-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 8px 30px rgba(26, 22, 20, 0.12);
+        }
+
+        .year {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .category {
+            display: inline-block;
+            padding: 0.35rem 1rem;
+            background: var(--secondary);
+            color: var(--bg);
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1rem;
+        }
+
+        .category.ice-palace {
+            background: var(--accent);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .content {
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .source {
+            font-size: 0.875rem;
+            color: var(--secondary);
+            font-style: italic;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(139, 111, 71, 0.2);
+        }
+
+        .source a {
+            color: var(--secondary);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .source a:hover {
+            border-bottom-color: var(--secondary);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+            padding: 3rem;
+            background: var(--primary);
+            color: var(--bg);
+            border-radius: 1rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.8;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .timeline {
+                padding-left: 2rem;
+            }
+
+            .timeline-item::before {
+                left: -2.5rem;
+            }
+
+            .filters {
+                gap: 0.5rem;
+            }
+
+            .filter-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="hero-content">
+            <h1>F. Scott Fitzgerald</h1>
+            <p class="subtitle">A Life in Timeline</p>
+        </div>
+        <div class="scroll-indicator">↓ Scroll to explore</div>
+    </div>
+
+    <div class="container">
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-number" id="totalEvents">0</span>
+                <span class="stat-label">Total Events</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">1896-1940</span>
+                <span class="stat-label">Lifespan</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="categories">0</span>
+                <span class="stat-label">Categories</span>
+            </div>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" data-category="all">All Events</button>
+            <button class="filter-btn" data-category="Personal Life">Personal Life</button>
+            <button class="filter-btn" data-category="Education">Education</button>
+            <button class="filter-btn" data-category="Military">Military</button>
+            <button class="filter-btn" data-category="Literary">Literary</button>
+            <button class="filter-btn" data-category="Relationships">Relationships</button>
+            <button class="filter-btn" data-category="The Ice Palace">The Ice Palace</button>
+            <button class="filter-btn" data-category="Historical Context">Historical Context</button>
+            <button class="filter-btn" data-category="Worldview">Worldview</button>
+        </div>
+
+        <div class="timeline" id="timeline"></div>
+    </div>
+
+    <script>
+        const events = [
+            {
+                year: "1896",
+                date: "September 24",
+                category: "Personal Life",
+                content: "Born in St. Paul, Minnesota, which helped shape his views on place and belonging.",
+                source: "https://www.britannica.com/biography/F-Scott-Fitzgerald"
+            },
+            {
+                year: "Childhood",
+                category: "Personal Life",
+                content: "Raised in a family with social status but unstable finances, which made him keenly aware of class and success.",
+                source: "https://www.britannica.com/biography/F-Scott-Fitzgerald"
+            },
+            {
+                year: "Childhood",
+                category: "Personal Life",
+                content: "Experienced harsh Midwestern winters in St. Paul, giving him personal experience with severe cold that would later inform the ice palace setting.",
+                source: "https://www.britannica.com/biography/F-Scott-Fitzgerald"
+            },
+            {
+                year: "Childhood",
+                category: "Personal Life",
+                content: "His childhood included moving between places because of his father's job struggles, giving him insight into social change and the theme of displacement.",
+                source: "https://writersinspire.org/content/curious-life-f-scott-fitzgerald"
+            },
+            {
+                year: "1913-1917",
+                category: "Education",
+                content: "Attended Princeton University and got deeply involved in student writing and social life but did not graduate.",
+                source: "https://www.pbs.org/wnet/americanmasters/f-scott-fitzgerald-career-timeline/592/"
+            },
+            {
+                year: "During Princeton",
+                category: "Literary",
+                content: "His first published fiction appeared while he was still a student, encouraging him to pursue writing professionally.",
+                source: "https://www.pbs.org/kteh/amstorytellers/bios.html"
+            },
+            {
+                year: "During Princeton",
+                category: "Literary",
+                content: "His early fiction already showed his interest in youth, society, and belonging—themes central to The Ice Palace.",
+                source: "https://americanliterature.com/author/f-scott-fitzgerald"
+            },
+            {
+                year: "1914-1918",
+                category: "Historical Context",
+                content: "World War I raged in Europe, creating the disillusionment that would define the Lost Generation.",
+                source: "Historical context"
+            },
+            {
+                year: "1918-1919",
+                category: "Military",
+                content: "Stationed near Montgomery, Alabama during his brief WWI service, where he encountered Southern culture—the warmth, social customs, and regional identity that contrasts with the North in The Ice Palace.",
+                source: "Context from document"
+            },
+            {
+                year: "1918",
+                category: "Relationships",
+                content: "Met Zelda Sayre in Montgomery; their intense but troubled marriage influenced much of his work. Zelda was a Southern belle, embodying the regional culture Fitzgerald explored in The Ice Palace.",
+                source: "https://www.britannica.com/biography/Zelda-Fitzgerald"
+            },
+            {
+                year: "1919",
+                category: "Historical Context",
+                content: "Post-WWI America entered the beginning of the Jazz Age—a period of rapid social change, modernization, and questioning of traditional values.",
+                source: "Historical context"
+            },
+            {
+                year: "Post-WWI",
+                category: "Literary",
+                content: "Fitzgerald became part of the Lost Generation—writers disillusioned by WWI who questioned whether external achievement could satisfy internal needs.",
+                source: "https://www.britannica.com/topic/Lost-Generation"
+            },
+            {
+                year: "1920",
+                category: "Historical Context",
+                content: "The Roaring Twenties began—an era of economic prosperity, cultural transformation, and tension between traditional and modern values that forms the backdrop of The Ice Palace.",
+                source: "Historical context"
+            },
+            {
+                year: "1920",
+                date: "March",
+                category: "Literary",
+                content: "His first novel, This Side of Paradise, brought him instant fame and explored identity and ambition—establishing him as a voice of the new generation.",
+                source: "https://www.britannica.com/topic/This-Side-of-Paradise"
+            },
+            {
+                year: "1920",
+                date: "May",
+                category: "The Ice Palace",
+                content: "Published 'The Ice Palace' in The Saturday Evening Post at age 23, during the height of his early success and shortly after marrying Zelda.",
+                source: "https://americanliterature.com/author/f-scott-fitzgerald/short-story/the-ice-palace"
+            },
+            {
+                year: "1920",
+                category: "The Ice Palace",
+                content: "The Ice Palace draws directly from Fitzgerald's cross-regional experience: his Midwestern upbringing provided understanding of Northern cold and culture, while his time in Montgomery gave him insight into Southern warmth and traditions.",
+                source: "Document context"
+            },
+            {
+                year: "1920",
+                category: "The Ice Palace",
+                content: "His romance with Zelda and the cultural clash between his Northern background and her Southern identity made issues of belonging vs. outsider status central to The Ice Palace's plot.",
+                source: "https://www.pbs.org/wnet/americanmasters/f-scott-fitzgerald-career-timeline/592/"
+            },
+            {
+                year: "1920",
+                category: "The Ice Palace",
+                content: "The Lost Generation worldview appears in The Ice Palace through the contrast between spectacle (the ice palace itself) and lived experience (Sally Carrol's visceral discomfort), questioning whether external grandeur can satisfy internal needs.",
+                source: "https://www.britannica.com/topic/Lost-Generation"
+            },
+            {
+                year: "1920",
+                category: "The Ice Palace",
+                content: "Fitzgerald's interest in how identity is both physical and emotional shows in Sally Carrol's intense reaction to the Northern climate and culture—the cold becomes a metaphor for emotional and social alienation.",
+                source: "https://americanliterature.com/author/f-scott-fitzgerald/short-story/the-ice-palace"
+            },
+            {
+                year: "1920",
+                category: "Historical Context",
+                content: "Regional identity remained strong in America—the South was still recovering from the Civil War and Reconstruction, while the North was rapidly industrializing. The Ice Palace explores this North-South divide.",
+                source: "Historical context"
+            },
+            {
+                year: "1920s",
+                category: "Literary",
+                content: "He was a contemporary of Ernest Hemingway, though their styles differed sharply. Both explored post-war disillusionment from different angles.",
+                source: "https://www.britannica.com/biography/Ernest-Hemingway"
+            },
+            {
+                year: "1920s",
+                category: "Literary",
+                content: "He lived alongside writers like T. S. Eliot, who shaped the broader modernist literary context—the sense that modern life had fractured traditional meanings and identities.",
+                source: "https://www.britannica.com/biography/T-S-Eliot"
+            },
+            {
+                year: "Throughout Career",
+                category: "Worldview",
+                content: "Fitzgerald's work consistently contrasts outer success with inner emptiness, focusing on how modern life and social ambition often fail to truly satisfy—a theme visible in The Ice Palace's contrast between the spectacular ice palace and Sally Carrol's profound unhappiness.",
+                source: "https://www.britannica.com/biography/F-Scott-Fitzgerald"
+            }
+        ];
+
+        function renderTimeline(filterCategory = 'all') {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = '';
+
+            const filteredEvents = filterCategory === 'all' 
+                ? events 
+                : events.filter(e => e.category === filterCategory);
+
+            filteredEvents.forEach((event, index) => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item';
+                item.style.animationDelay = `${index * 0.1}s`;
+                
+                item.innerHTML = `
+                    <div class="timeline-card">
+                        <div class="year">${event.year}${event.date ? ` - ${event.date}` : ''}</div>
+                        <span class="category ${event.category === 'The Ice Palace' ? 'ice-palace' : ''}">${event.category}</span>
+                        <div class="content">${event.content}</div>
+                        <div class="source">Source: <a href="${event.source}" target="_blank" rel="noopener">${event.source.includes('britannica') ? 'Britannica' : event.source.includes('pbs') ? 'PBS' : event.source.includes('writersinspire') ? 'Writers Inspire' : event.source.includes('americanliterature') ? 'American Literature' : 'Reference'}</a></div>
+                    </div>
+                `;
+                
+                timeline.appendChild(item);
+            });
+
+            // Update stats
+            document.getElementById('totalEvents').textContent = filteredEvents.length;
+        }
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderTimeline(btn.dataset.category);
+            });
+        });
+
+        // Initialize
+        renderTimeline();
+        
+        // Update category count
+        const uniqueCategories = [...new Set(events.map(e => e.category))];
+        document.getElementById('categories').textContent = uniqueCategories.length;
+    </script>
+</body>
+</html>
